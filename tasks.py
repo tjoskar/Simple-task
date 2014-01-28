@@ -105,5 +105,6 @@ if __name__ == '__main__':
     # serve app
     app = config.make_wsgi_app()
     server = make_server('0.0.0.0', 8080, app)
+    print '0.0.0.0:8080'
     server.serve_forever()
 
