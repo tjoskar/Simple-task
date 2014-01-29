@@ -15,43 +15,45 @@ class ToDoTest(unittest.TestCase):
     task_name = 'Test'
 
     def restore_database(self):
-	print 'restore database'
-	self.db.execute(
-	    'DELETE FROM tasks WHERE name=?',
-	    [self.task_name]
-	)
-	self.db.commit()
+        print 'restore database'
+        self.db.execute(
+            'DELETE FROM tasks WHERE name=?',
+            [self.task_name]
+        )
+        self.db.commit()
 
     def setUp(self):
-	here = os.path.dirname(os.path.abspath(__file__))
-	db_path = os.path.join(here, 'tasks.db')
-	self.db = sqlite3.connect(db_path)
-	self.restore_database()
-	self.browser = webdriver.Remote(
-	    command_executor='http://awesome.dev:4444/wd/hub',
-	    desired_capabilities=DesiredCapabilities.FIREFOX
-	)
+        here = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(here, 'tasks.db')
+        self.db = sqlite3.connect(db_path)
+        self.restore_database()
+        self.browser = webdriver.Remote(
+            command_executor='http://yalla.dev:4444/wd/hub',
+            desired_capabilities=DesiredCapabilities.FIREFOX
+        )
 
     def test_add_new_item(self):
-	self.browser.get("http://awesome.dev:8080/")
-	self.assertIn("Simple TODO List", self.browser.title)
+        self.browser.get("http://yalla.dev:8080/")
+        self.assertIn("Simple TODO List", self.browser.title)
 
-	add_new_link = self.browser.find_element_by_link_text("Add a new task")
-	add_new_link.click()
+        add_new_link = self.browser.find_element_by_link_text("Add a new task")
+        add_new_link.click()
 
-	name_input = self.browser.find_element_by_name('name')
-	name_input.send_keys(self.task_name)
-	button = self.browser.find_element_by_class_name('button')
-	button.click()
+        name_input = self.browser.find_element_by_name('name')
+        name_input.send_keys(self.task_name)
+        button = self.browser.find_element_by_class_name('button')
+        button.click()
 
-	new_task = self.browser.find_element_by_xpath("(.//ul/li/span[@class='name'])[last()]")
+        new_task = self.browser.find_element_by_xpath("(.//ul/li/span[@class='name'])[last()]")
 
-	# time.sleep(2);
-	self.browser.get_screenshot_as_file('/Users/oskar/vagrant/awesome/data/todo.png')
+        # time.sleep(2);
+        if self.browser.get_screenshot_as_file('/Users/oskar/vagrant/yalla/data/todo.png'):
+            print 'Unable to save screenshot'
+
 
     def tearDown(self):
-	self.browser.close()
-	self.restore_database()
+        self.browser.close()
+        self.restore_database()
 
 if __name__ == "__main__":
     unittest.main()
