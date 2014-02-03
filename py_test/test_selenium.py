@@ -31,7 +31,7 @@ class ToDoTest(unittest.TestCase):
 
     def setUp(self):
         here = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(here, 'tasks.db')
+        db_path = os.path.join(here, '../tasks.db')
         self._db = sqlite3.connect(db_path)
         self._restore_database()
         self._browser = webdriver.Remote(
