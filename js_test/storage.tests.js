@@ -1,3 +1,4 @@
+/* global describe, it, expect, beforeEach, inject */
 describe('StorageTest', function(){
     var _storage;
 
@@ -12,7 +13,7 @@ describe('StorageTest', function(){
         var key = 'key';
         var val = 'value';
         _storage.set(key, val);
-        actual = _storage.get(key);
+        var actual = _storage.get(key);
 
         expect(actual).toEqual(val);
     });
@@ -23,7 +24,7 @@ describe('StorageTest', function(){
             'key': 'val'
         };
         _storage.set(key, val);
-        actual = _storage.get(key);
+        var actual = _storage.get(key);
 
         expect(actual).toEqual(val);
     });
@@ -33,7 +34,7 @@ describe('StorageTest', function(){
         var val = 'val';
 
         _storage.set(key, val, 1000);
-        storageData = _storage.get(key);
+        var storageData = _storage.get(key);
         expect(_storage.isObsolete()).toBeFalsy();
 
         _storage.set(key, val, -1);

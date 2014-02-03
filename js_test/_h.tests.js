@@ -1,3 +1,4 @@
+/* global describe, it, expect */
 describe('StorageTest', function(){
 
     it('should check if string', function() {
@@ -22,10 +23,10 @@ describe('StorageTest', function(){
     });
 
     it('should check if int', function() {
-        expect(_h.isInt(1)).toEqual(true);                  // Believe it ot not
-        expect(_h.isInt(Number.MAX_VALUE)).toEqual(false);  // Believe it ot not
-        expect(_h.isInt(Number.MIN_VALUE)).toEqual(false);  // Believe it ot not
-        expect(_h.isInt(Infinity)).toEqual(false);
+        expect(_h.isInt(1)).toEqual(true);
+        expect(_h.isInt(Number.MAX_VALUE)).toEqual(false);  // Believe it or not
+        expect(_h.isInt(Number.MIN_VALUE)).toEqual(false);  // Believe it or not
+        expect(_h.isInt(Infinity)).toEqual(false);          // Believe it or not
         expect(_h.isInt([])).toEqual(false);
         expect(_h.isInt({})).toEqual(false);
         expect(_h.isInt(undefined)).toEqual(false);
