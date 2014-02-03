@@ -55,7 +55,7 @@ class ToDoTest(unittest.TestCase):
 
         browser.find_element_by_xpath("(.//ul/li/span[@class='name'])[last()]")
 
-        if not browser.get_screenshot_as_file('/Users/oskar/vagrant/yalla/data/todo.png'):
+        if not browser.get_screenshot_as_file('todo.png'):
             print 'Unable to save screenshot'
 
     def tearDown(self):
