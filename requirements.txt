@@ -14,3 +14,4 @@ zope.deprecation==4.1.0
 zope.interface==4.0.5
 selenium
 mock
+PyMySQL
