@@ -4,8 +4,8 @@ Testing like a boss
 
 import unittest
 from pyramid import testing
-import tasks
-from mock import Mock
+from simple_task import views
+from mock import Mock, patch
 
 class ViewTests(unittest.TestCase):
     """ Test that all views is working as expected """
@@ -27,14 +27,15 @@ class ViewTests(unittest.TestCase):
         """ Test list view """
         request = testing.DummyRequest()
 
-        db_mock = Mock()
-        db_result_mock = Mock()
-        db_result_mock.fetchall.return_value = self._db_tasks
-        db_mock.execute.return_value = db_result_mock
+        # db_mock = Mock()
+        # db_result_mock = Mock()
+        db_cursor_mock = Mock()
+        db_cursor_mock.fetchall.return_value = self._db_tasks
+        # mock_db.cursor.return_value = db_cursor_mock
 
-        request.db = db_mock
+        request.db_cursor = db_cursor_mock
 
-        result = tasks.list_view(request)
+        result = views.list_view(request)
         taskts = [dict(id=row[0], name=row[1]) for row in self._db_tasks]
         assert all([True for value in result.get('tasks') if value in taskts])
 
@@ -45,7 +46,7 @@ class ViewTests(unittest.TestCase):
         request = testing.DummyRequest()
 
         request.method = 'GET'
-        result = tasks.new_view(request)
+        result = views.new_view(request)
 
         self.assertEqual(result, {})
 
@@ -60,7 +61,7 @@ class ViewTests(unittest.TestCase):
         session_mock.flash.return_value = None
         request.session = session_mock
 
-        result = tasks.new_view(request)
+        result = views.new_view(request)
         session_mock.flash.assert_called_once_with(
             'Please enter a name for the task!'
         )
@@ -69,18 +70,20 @@ class ViewTests(unittest.TestCase):
         request.POST['name'] = 'New name'
         db_mock = Mock()
         db_mock.commit.return_value = None
-        db_mock.execute.return_value = None
+        db_cursor_mock = Mock()
+        db_cursor_mock.execute.return_value = None
         request.db = db_mock
+        request.db_cursor = db_cursor_mock
 
         session_mock = Mock()
         session_mock.flash.return_value = None
         request.session = session_mock
 
-        tasks.new_view(request)
+        views.new_view(request)
 
-        request.db.execute.assert_called_once_with(
-            'insert into tasks (name, closed) values (?, ?)',
-            [request.POST['name'], 0]
+        request.db_cursor.execute.assert_called_once_with(
+            "insert into tasks (name, closed) values (%s, %s)",
+            (request.POST['name'], '0')
         )
         request.db.commit.assert_called_once_with()
         request.session.flash.assert_called_once_with(
@@ -96,17 +99,19 @@ class ViewTests(unittest.TestCase):
 
         db_mock = Mock()
         db_mock.commit.return_value = None
-        db_mock.execute.return_value = None
+        db_cursor_mock = Mock()
+        db_cursor_mock.execute.return_value = None
         request.db = db_mock
+        request.db_cursor = db_cursor_mock
 
         session_mock = Mock()
         session_mock.flash.return_value = None
         request.session = session_mock
 
-        tasks.close_view(request)
+        views.close_view(request)
 
-        request.db.execute.assert_called_once_with(
-            'update tasks set closed = ? where id = ?',
+        request.db_cursor.execute.assert_called_once_with(
+            "update tasks set closed = %s where id = %s",
             (1, 1)
         )
         request.db.commit.assert_called_once_with()
@@ -120,7 +125,7 @@ class ViewTests(unittest.TestCase):
 
         request.response.status = '200 OK'
 
-        result = tasks.notfound_view(request)
+        result = views.notfound_view(request)
 
         self.assertEqual(
             request.response.status,
