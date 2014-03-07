@@ -12,6 +12,11 @@
   "eqnull": true,
   "node": true,
   "globals": {
-
+    "_h": true,
+    "describe": true,
+    "beforeEach": true,
+    "it": true,
+    "expect": true,
+    "spyOn": true
   }
 }
