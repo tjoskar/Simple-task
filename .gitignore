@@ -1,6 +1,0 @@
-
-simple_task/static/components
-simple_task/node_modules
-simple_task.egg-info
-
-*.db
