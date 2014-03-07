@@ -1,1 +1,3 @@
 tests/*/test-results.xml
+tests/js/jshint.xml
+tests/python/pylint.out
