@@ -57,7 +57,7 @@ describe('helper function', function(){
 
     it('should get the current time', function() {
         var timestamp = 1391677820622;
-        spyOn(Date.prototype, 'getTime').and.returnValue(745);
+        spyOn(Date.prototype, 'getTime').and.returnValue(timestamp);
         expect(_h.time()).toEqual(timestamp);
     });
 
