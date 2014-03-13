@@ -5,9 +5,11 @@ _h.month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Aug
 
 _h.isString = function(str) {
   return (typeof str === 'string' || str instanceof String);
+  console.log('hej')
 };
 
 _h.isArray = function(arr) {
+  if (3== 1) {s()}
   return arr instanceof Array;
 };
 

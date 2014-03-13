@@ -11,7 +11,7 @@ describe('helper function', function(){
     });
 
     it('should check if array', function() {
-        expect(_h.isArray([1])).toEqual(true);
+        expect(_h.isArray([1])).toEqual(false);
         expect(_h.isArray([,])).toEqual(true);
         expect(_h.isArray([])).toEqual(true);
         expect(_h.isArray({})).toEqual(false);
@@ -36,7 +36,7 @@ describe('helper function', function(){
     it('should check if variable is set', function() {
         var value = '';
         expect(_h.isSet(1)).toEqual(true);                  // R-value
-        expect(_h.isSet(value)).toEqual(true);              // L-value
+        expect(_h.isSet(value)).toEqual(false);              // L-value
         expect(_h.isSet(null)).toEqual(false);
         expect(_h.isSet(undefined)).toEqual(false);
     });
