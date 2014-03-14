@@ -1,30 +1,41 @@
 #! /usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-"""
-Testfall för att se om texten hej kan se på startsidan
-"""
-
-from driverwrapper import DriverWrapper
+from base_selenium_test_class import BaseSeleniumTestClass
 import nose
 
-def test_that_index_page_is_working():
-    """ Test that index page is working """
-    I = DriverWrapper(timeout=5, poll=0.5, delay=1)
+class TestSuite(BaseSeleniumTestClass):
+    """docstring for TestSuite"""
 
-    I.connect_local('phantomjs')
-    # I.connect_remote('firefox', 'http://yalla.dev:4444/wd/hub')
+    def __init__(self):
+        self.driver = None
+        self.connect_to_database = False
+        super(TestSuite, self).__init__()
 
-    I.take_screenshot_on_failure = True
+    def test_that_index_page_is_working(self):
+        """ Test that index page is working """
+        I = self.driver
+        I.take_screenshot_on_failure = True
 
-    I.get("http://localhost/simple_task")
+        I.get("http://jenkins/simple_task")
 
-    I.see('Hej')
-    I.do_not_see('07:00–16:00')
+        I.see('Hej')
+        I.do_not_see('Something else')
 
-    assert I.am_on == 'http://localhost/simple_task/'
+        assert I.am_on == 'http://jenkins/simple_task/'
 
-    I.close()
+
+    def test_wikipedia(self):
+        I = self.driver
+        I.get("http://en.wikipedia.org/wiki/Randomness")
+
+        I.see('Randomness')
+
+        I.find_by_css(".mbox-image")
+        I.dump_elm()
+
+        I.find_by_css("img", False)
+        I.dump_elm()
 
 if __name__ == '__main__':
     nose.main()
