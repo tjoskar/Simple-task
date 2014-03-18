@@ -15,5 +15,9 @@ def test_that_true_is_true():
     """ Test to see if True is equal True """
     assert True == True
 
+def test_that_false_is_false():
+    """ Test to see if True is equal True """
+    assert True == True
+
 if __name__ == '__main__':
     nose.main()
